@@ -40,10 +40,10 @@ app.post('/profile', function(req,res)
   });
 });
 
-app.delete('/pet/:id',function(req, res)
+app.delete('/profile/:id',function(req, res)
 {
   var id = req.params.id;
-  db.run("DELETE FROM pets WHERE id = ?", id, function(err)
+  db.run("DELETE FROM profile WHERE id = ?", id, function(err)
   {
     if(err) {throw err;}
       res.json({deleted: true});

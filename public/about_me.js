@@ -15,14 +15,14 @@ var addAllProfiles = function()
 
 addAllProfiles();
 
-//deletes a pet using the API
+//deletes a profile using the API
 
-var deletePet = function()
+var deleteProfile = function()
 {
   var li = this.parentNode;
-  var id = li.id.substring(3); // pet1
+  var id = li.id.substring(7); // profile7
   var xhr = new XMLHttpRequest();
-  xhr.open('DELETE', 'http://localhost:3000/pet/'+id);
+  xhr.open('DELETE', 'http://localhost:3000/profile/'+id);
   xhr.addEventListener('load', function()
   {
     if(JSON.parse(xhr.responseText)['deleted']===true)
@@ -60,11 +60,11 @@ var setLiToProfile = function(li,profile)
 
   var deleteButton = document.createElement('button');
   deleteButton.innerText = "Delete";
-  deleteButton.addEventListener('click', deletePet);
+  deleteButton.addEventListener('click', deleteProfile);
   li.appendChild(deleteButton);
 };
 
-//toggle editing for pet
+//toggle editing for Profile
 var editProfile = function(li,name,hometown,age)
 {
   li.innerText='';
