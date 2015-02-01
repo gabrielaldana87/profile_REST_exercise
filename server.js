@@ -3,7 +3,7 @@ var cors = require('cors');
 var app =  express();
 var bodyParser = require('body-parser');
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database("profiles.db");
+var db = new sqlite3.Database("chores.db");
 
 app.use(cors());
 app.use(bodyParser.json({extended: false}));
@@ -14,25 +14,25 @@ app.get('/', function(req,res)
   res.sendFile(__dirname + '/public/index.html')
 });
 
-app.get('/profiles', function(req,res)
+app.get('/chores', function(req,res)
 {
-  db.all("SELECT * FROM profile", function(err,rows)
+  db.all("SELECT * FROM chores ORDER BY person asc", function(err,rows)
   {
     if(err){throw err;}
       res.json(rows);
   });
 });
 
-app.post('/profile', function(req,res)
+app.post('/chore', function(req,res)
 {
-  var newName = req.body.name;
-  var newHometown = req.body.hometown;
-  var newAge = req.body.age;
-  db.run("INSERT INTO profile (newName, newHometown, newAge) VALUES (?,?,?)", newName, newHometown, newAge, function(err)
+  var newPerson = req.body.person;
+  var newChore = req.body.chore;
+
+  db.run("INSERT INTO chores (person, chore) VALUES (?,?)", newPerson, newChore, function(err)
   {
     if(err) {throw err;}
       var id = this.lastID;
-      db.get("SELECT * FROM profile WHERE id = ?", id, function(err,row)
+      db.get("SELECT * FROM chores WHERE id = ?", id, function(err,row)
       {
         if(err){ throw err;}
           res.json(row);
@@ -40,10 +40,19 @@ app.post('/profile', function(req,res)
   });
 });
 
-app.delete('/profile/:id',function(req, res)
+app.delete('/chore/:id',function(req, res)
 {
   var id = req.params.id;
-  db.run("DELETE FROM profile WHERE id = ?", id, function(err)
+  db.run("DELETE FROM chores WHERE id = ?", id, function(err)
+  {
+    if(err) {throw err;}
+      res.json({deleted: true});
+  });
+});
+
+app.delete('/delete',function(req, res)
+{
+  db.run("DELETE FROM chores", function(err)
   {
     if(err) {throw err;}
       res.json({deleted: true});
