@@ -78,6 +78,23 @@ var setLiToChore = function(li,chore)
   // });
   // li.appendChild(edit);
 
+  var checkbox = document.createElement('input');
+  checkbox.setAttribute('type','checkbox');
+  checkbox.addEventListener('change',function()
+  {
+    if(checkbox.checked)
+      {
+        li.style.textDecoration="line-through";
+      }
+    else
+      {
+        li.style.textDecoration="none";
+      }
+  });
+  li.appendChild(checkbox);
+
+
+
   var deleteButton = document.createElement('button');
   deleteButton.innerText = "Delete";
   deleteButton.addEventListener('click', deleteChore);
